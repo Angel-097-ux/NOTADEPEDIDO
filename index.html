@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota de Pedido Profesional</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -12,68 +11,68 @@
 <div id="hoja-pedido" class="nota-pedido">
     <header class="header-pedido">
         <div class="logo-seccion">
-            <div class="titulo-principal">
+            <div>
                 <h1>NOTA DE PEDIDO</h1>
-                <input type="text" id="fabrica-nombre" placeholder="NOMBRE DE FÁBRICA / MARCA" class="input-destacado">
+                <input type="text" id="fabrica-nombre" placeholder="NOMBRE DE FÁBRICA" class="input-destacado">
             </div>
-            <div class="fecha-nro">
+            <div style="text-align: right;">
                 <p>Fecha: <span id="fecha-actual"></span></p>
-                <div class="nro-pedido-box">
-                    <label>Pedido N°:</label>
-                    <input type="text" id="nro-pedido" placeholder="001">
-                </div>
+                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="001"></div>
             </div>
         </div>
-        <div class="datos-cliente">
-            <input type="text" id="cliente" placeholder="Nombre del Cliente / Razón Social">
-            <div class="fila-input">
-                <input type="text" id="localidad" placeholder="Localidad/Ciudad">
-                <input type="text" id="transporte" placeholder="Transporte / Expreso">
+        <div class="datos-cliente" style="display: flex; flex-direction: column; gap: 5px; margin-top: 10px;">
+            <input type="text" id="cliente" placeholder="Cliente / Razón Social" style="border-bottom: 1px solid #ccc; text-align: left; padding: 5px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="localidad" placeholder="Localidad" style="flex: 1; border-bottom: 1px solid #ccc; text-align: left;">
+                <input type="text" id="transporte" placeholder="Transporte / Expreso" style="flex: 1; border-bottom: 1px solid #ccc; text-align: left;">
             </div>
         </div>
     </header>
 
-    <div class="tabla-contenedor">
-        <table id="tabla-articulos">
-            <thead>
-                <tr>
-                    <th rowspan="2">Cant</th>
-                    <th rowspan="2">Art.</th>
-                    <th rowspan="2">Color</th>
-                    <th colspan="10" class="cat-talles">MESES</th>
-                    <th colspan="10" class="cat-talles">AÑOS</th>
-                    <th rowspan="2">Precio</th>
-                    <th rowspan="2">Subtotal</th>
-                </tr>
-                <tr class="talles-header">
-                    <th>00</th><th>0</th><th>1</th><th>3</th><th>6</th><th>9</th><th>12</th><th>18</th><th>24</th><th>36</th>
-                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>8</th><th>10</th><th>12</th><th>14</th>
-                </tr>
-            </thead>
-            <tbody id="cuerpo-tabla">
-                <tr class="fila-producto">
-                    <td><input type="number" class="total-cant" readonly value="0"></td>
-                    <td><input type="text" class="art-cod"></td>
-                    <td><input type="text" class="art-color"></td>
-                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-                    <td><input type="number" class="art-precio" placeholder="$"></td>
-                    <td class="fila-subtotal">$0</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2" class="col-cant">Cant</th>
+                <th rowspan="2" class="col-art">Art.</th>
+                <th rowspan="2" class="col-color">Color</th>
+                <th colspan="10" class="cat-talles">MESES</th>
+                <th colspan="10" class="cat-talles">AÑOS</th>
+                <th rowspan="2" class="col-precio">Precio</th>
+                <th rowspan="2" class="col-subtotal">Subtotal</th>
+            </tr>
+            <tr class="talles-header">
+                <th class="col-talle">00</th><th class="col-talle">0</th><th class="col-talle">1</th><th class="col-talle">3</th><th class="col-talle">6</th><th class="col-talle">9</th><th class="col-talle">12</th><th class="col-talle">18</th><th class="col-talle">24</th><th class="col-talle">36</th>
+                <th class="col-talle">1</th><th class="col-talle">2</th><th class="col-talle">3</th><th class="col-talle">4</th><th class="col-talle">5</th><th class="col-talle">6</th><th class="col-talle">8</th><th class="col-talle">10</th><th class="col-talle">12</th><th class="col-talle">14</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla">
+            <tr class="fila-producto">
+                <td><input type="number" class="total-cant" readonly value="0"></td>
+                <td><input type="text" class="art-cod"></td>
+                <td><input type="text" class="art-color"></td>
+                <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                <td><input type="number" class="art-precio" placeholder="$"></td>
+                <td class="fila-subtotal">$0</td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="pie-tabla">
-        <button onclick="agregarFila()" class="btn-add no-print">+ Agregar Artículo</button>
+        <button onclick="agregarFila()" class="btn-add no-print">+ Artículo</button>
         <div class="gran-total">TOTAL: <span id="total-final">$0</span></div>
     </div>
 
-    <footer class="footer-pedido">
-        <textarea id="observaciones" placeholder="Observaciones / Fecha de entrega..."></textarea>
-        <div class="botones-envio no-print">
-            <button onclick="generarPDF()" class="btn-pdf">Descargar PDF (Formato Hoja)</button>
-            <button onclick="enviarWhatsapp()" class="btn-whatsapp">Enviar por WhatsApp</button>
+    <footer>
+        <textarea id="observaciones" placeholder="Observaciones / Notas adicionales..." style="width: 100%; height: 50px; margin-top: 10px; padding: 5px;"></textarea>
+        <div class="no-print">
+            <button onclick="generarPDF()" class="btn-pdf">Descargar PDF</button>
+            <button onclick="enviarWhatsapp()" class="btn-whatsapp">WhatsApp</button>
+        </div>
+
+        <div class="no-print gestion-box" style="margin-top: 20px; padding: 15px; background: #e8f4fd; border: 1px dashed #2980b9; border-radius: 8px; text-align: center;">
+            <button onclick="guardarPedido()" style="background: #2980b9; margin-right: 10px;">💾 Guardar Pedido</button>
+            <button onclick="cargarPedido()" style="background: #8e44ad;">📂 Abrir Pedido</button>
         </div>
     </footer>
 </div>

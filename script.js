@@ -1,7 +1,5 @@
-// Fecha Actual
 document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString();
 
-// Función inicial para que la primera fila ya sume
 vincularEventos();
 
 function agregarFila() {
@@ -9,15 +7,15 @@ function agregarFila() {
     const filas = document.getElementsByClassName('fila-producto');
     const nuevaFila = filas[0].cloneNode(true);
     
-    // Limpiamos los datos de la fila clonada
     nuevaFila.querySelectorAll('input').forEach(i => {
         i.value = "";
+        i.classList.remove('llegue'); 
         if(i.classList.contains('total-cant')) i.value = 0;
     });
     nuevaFila.querySelector('.fila-subtotal').innerText = "$0";
     
     cuerpo.appendChild(nuevaFila);
-    vincularEventos(); // Vinculamos los cálculos a la nueva fila
+    vincularEventos(); 
 }
 
 function vincularEventos() {
@@ -28,18 +26,12 @@ function vincularEventos() {
         const calcular = () => {
             let cant = 0;
             talles.forEach(t => cant += Number(t.value || 0));
-            
-            // Ponemos el total de unidades en la columna "Cant"
             fila.querySelector('.total-cant').value = cant;
-            
-            // Calculamos subtotal
             let p = Number(precioI.value || 0);
             fila.querySelector('.fila-subtotal').innerText = `$${(cant * p).toLocaleString()}`;
-            
             sumarTodo();
         };
 
-        // Escuchar cambios en talles y precio
         talles.forEach(t => t.oninput = calcular);
         precioI.oninput = calcular;
     });
@@ -48,65 +40,79 @@ function vincularEventos() {
 function sumarTodo() {
     let total = 0;
     document.querySelectorAll('.fila-subtotal').forEach(s => {
-        // Limpiamos el texto para convertirlo a número puro
         let valor = s.innerText.replace('$', '').replace(/\./g, '').replace(/,/g, '');
         total += Number(valor || 0);
     });
     document.getElementById('total-final').innerText = `$${total.toLocaleString()}`;
 }
 
-function enviarWhatsapp() {
-    const fabrica = document.getElementById('fabrica-nombre').value || "General";
-    const nroPedido = document.getElementById('nro-pedido').value || "S/N";
-    const cliente = document.getElementById('cliente').value || "Cliente";
-    
-    let mensaje = `*📦 PEDIDO N° ${nroPedido} - ${fabrica.toUpperCase()}*%0A`;
-    mensaje += `*Cliente:* ${cliente}%0A--------------------------%0A`;
-    
-    document.querySelectorAll('.fila-producto').forEach(fila => {
-        const art = fila.querySelector('.art-cod').value;
-        const total = fila.querySelector('.total-cant').value;
-        if(art && total > 0) {
-            mensaje += `• *${art}* | Cant: ${total} | Sub: ${fila.querySelector('.fila-subtotal').innerText}%0A`;
-        }
-    });
+// Tachado con doble clic
+document.addEventListener('dblclick', function(e) {
+    if(e.target.classList.contains('t')) {
+        e.target.classList.toggle('llegue');
+    }
+});
 
-    mensaje += `--------------------------%0A*TOTAL: ${document.getElementById('total-final').innerText}*`;
-    window.open(`https://wa.me/5493426112097?text=${mensaje}`, '_blank');
+function guardarPedido() {
+    const fabrica = document.getElementById('fabrica-nombre').value;
+    const nro = document.getElementById('nro-pedido').value;
+    if (!fabrica || !nro) return alert("⚠️ Completa Fábrica y N°");
+
+    const pedido = {
+        fabrica, nro,
+        cliente: document.getElementById('cliente').value,
+        localidad: document.getElementById('localidad').value,
+        transporte: document.getElementById('transporte').value,
+        obs: document.getElementById('observaciones').value,
+        tablaHTML: document.getElementById('cuerpo-tabla').innerHTML,
+        total: document.getElementById('total-final').innerText
+    };
+    localStorage.setItem(`Pedido_${fabrica}_${nro}`, JSON.stringify(pedido));
+    alert("✅ Guardado en esta PC");
+}
+
+function cargarPedido() {
+    const fabrica = prompt("Nombre de la Fábrica:");
+    const nro = prompt("N° de pedido:");
+    const datos = localStorage.getItem(`Pedido_${fabrica}_${nro}`);
+    if (datos) {
+        const p = JSON.parse(datos);
+        document.getElementById('cuerpo-tabla').innerHTML = p.tablaHTML;
+        document.getElementById('fabrica-nombre').value = p.fabrica;
+        document.getElementById('nro-pedido').value = p.nro;
+        document.getElementById('cliente').value = p.cliente;
+        document.getElementById('localidad').value = p.localidad;
+        document.getElementById('transporte').value = p.transporte;
+        document.getElementById('observaciones').value = p.obs || "";
+        document.getElementById('total-final').innerText = p.total;
+        vincularEventos();
+        alert("📂 Cargado");
+    } else { alert("❌ No encontrado"); }
 }
 
 function generarPDF() {
     const elemento = document.getElementById('hoja-pedido');
-    const nroPedido = document.getElementById('nro-pedido').value || '001';
+    const nro = document.getElementById('nro-pedido').value || '001';
     const fabrica = document.getElementById('fabrica-nombre').value || 'PEDIDO';
-
-    // 1. Forzamos el ancho justo antes de capturar para que no haya margen negro
-    const anchoOriginal = elemento.style.width;
-    elemento.style.width = "1180px"; 
-
+    
     const opciones = {
         margin: 0.2,
-        filename: `${fabrica}_Nro_${nroPedido}.pdf`,
+        filename: `${fabrica}_Nro_${nro}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            logging: false,
-            letterRendering: true,
-            windowWidth: 1200, // Forzamos el ancho de la "ventana" de captura
-            scrollX: 0,
-            scrollY: 0
-        },
-        jsPDF: { 
-            unit: 'in', 
-            format: 'a3', 
-            orientation: 'landscape' 
-        }
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
     };
+    html2pdf().set(opciones).from(elemento).save();
+}
 
-    // 2. Ejecutar la generación
-    html2pdf().set(opciones).from(elemento).save().then(() => {
-        // 3. Devolvemos el ancho a la normalidad
-        elemento.style.width = anchoOriginal;
+function enviarWhatsapp() {
+    const fabrica = document.getElementById('fabrica-nombre').value || "Pedido";
+    let mensaje = `*PEDIDO: ${fabrica.toUpperCase()}*%0A`;
+    document.querySelectorAll('.fila-producto').forEach(fila => {
+        const art = fila.querySelector('.art-cod').value;
+        const total = fila.querySelector('.total-cant').value;
+        if(art && total > 0) mensaje += `• *${art}* | Cant: ${total}%0A`;
     });
+    mensaje += `*TOTAL: ${document.getElementById('total-final').innerText}*`;
+    window.open(`https://wa.me/5493426112097?text=${mensaje}`, '_blank');
 }

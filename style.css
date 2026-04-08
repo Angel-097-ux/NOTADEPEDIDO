@@ -1,91 +1,68 @@
-/* Estilos Generales */
+/* Estilos Base */
 * { box-sizing: border-box; font-family: 'Arial', sans-serif; }
 body { background: #f4f4f4; padding: 20px; }
 
 .nota-pedido { 
     background: white; 
-    width: 1200px; /* Un poco más ancho para que entren los talles cómodos */
+    width: 1250px; 
     margin: auto; 
-    padding: 30px; 
+    padding: 25px; 
     border: 1px solid #000;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 /* Encabezado */
-.header-pedido { margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; }
-.logo-seccion { display: flex; justify-content: space-between; align-items: flex-start; }
-.input-destacado { border: none; font-size: 24px; font-weight: bold; width: 450px; outline: none; border-bottom: 1px dashed #ccc; }
-.nro-pedido-box input { width: 60px; border: none; border-bottom: 1px solid #000; text-align: center; font-weight: bold; }
+.header-pedido { margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+.logo-seccion { display: flex; justify-content: space-between; }
+.input-destacado { border: none; font-size: 22px; font-weight: bold; width: 400px; border-bottom: 1px dashed #ccc; outline: none; }
+.nro-pedido-box input { width: 50px; border: none; border-bottom: 1px solid #000; text-align: center; font-weight: bold; }
 
-.datos-cliente { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
-.datos-cliente input { padding: 5px; border: 1px solid #ccc; border-radius: 3px; }
-.fila-input { display: flex; gap: 10px; }
-.fila-input input { flex: 1; }
+/* Tabla con Ancho Fijo para que no se deforme */
+table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
+th, td { border: 1px solid #000; text-align: center; padding: 2px; font-size: 10px; overflow: hidden; }
 
-/* Tabla Optimizada para Talles */
-.tabla-contenedor { margin-top: 20px; width: 100%; }
-table { width: 100%; border-collapse: collapse; } /* Quitamos fixed para que se adapte al contenido */
-th, td { border: 1px solid #000; text-align: center; padding: 4px; font-size: 10px; }
+/* Definición de anchos de columna */
+.col-cant { width: 35px; }
+.col-art { width: 65px; }
+.col-color { width: 110px; }
+.col-talle { width: 28px; } /* Ancho exacto para cada talle */
+.col-precio { width: 75px; }
+.col-subtotal { width: 90px; }
 
-/* Colores de encabezados */
-thead th { background: #f2f2f2; }
+thead th { background: #f2f2f2; height: 25px; }
 .cat-talles { background: #333; color: white; font-weight: bold; }
-.talles-header th { font-size: 9px; width: 25px; } /* Columnas de talles bien finitas */
 
-/* Inputs de la tabla */
-input { width: 100%; border: none; text-align: center; font-size: 11px; outline: none; padding: 2px; }
-input:focus { background: #fffde7; }
-input.t { background: #fafafa; } /* Fondo sutil para los talles */
-input.total-cant { font-weight: bold; background: #eee; cursor: default; }
+/* Inputs dentro de la tabla */
+input { width: 100%; border: none; outline: none; background: transparent; text-align: center; font-size: 11px; }
 
-/* Pie de Tabla y Totales */
-.pie-tabla { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-.gran-total { background: #000; color: #fff; padding: 10px 20px; font-size: 20px; font-weight: bold; }
-
-/* Footer y Observaciones */
-.footer-pedido { margin-top: 20px; }
-textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; min-height: 60px; }
-
-/* Botones con colores correctos */
-.botones-envio { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
-button { padding: 10px 20px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 5px; transition: 0.2s; }
-
-.btn-add { background: #2c3e50; } /* Gris oscuro */
-.btn-pdf { background: #c0392b; } /* Rojo */
-.btn-whatsapp { background: #27ae60; } /* Verde WhatsApp */
-
-button:hover { opacity: 0.9; transform: scale(1.02); }
-
-/* REGLA PARA EL PDF */
-@media print {
-    .no-print { display: none !important; }
-    body { background: white; padding: 0; }
-    .nota-pedido { border: none; box-shadow: none; width: 100% !important; margin: 0; }
-    table { font-size: 9px; } /* Achicamos un pelín más para el papel */
-}
-/* Corrección de márgenes y cortes en PDF */
-#hoja-pedido {
-    background-color: white !important;
-    overflow: hidden !important; /* Evita que el PDF "vea" cosas fuera de la hoja */
+/* Talles: Visibles pero sin romper la fila */
+input.t { 
+    font-size: 13px !important; 
+    font-weight: bold !important; 
+    background-color: #fffde7 !important; 
+    height: 26px; 
 }
 
+/* Quitar flechas de números */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* Efecto Tachado (Doble Clic) */
+.llegue { background-color: #d4edda !important; text-decoration: line-through; color: #155724; opacity: 0.6; }
+
+/* Totales y Botones */
+.pie-tabla { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+.gran-total { background: #000; color: #fff; padding: 8px 15px; font-size: 18px; font-weight: bold; }
+
+.no-print { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 4px; font-size: 13px; }
+.btn-add { background: #2c3e50; }
+.btn-pdf { background: #c0392b; }
+.btn-whatsapp { background: #27ae60; }
+
+/* PDF A3 */
 @media print {
-    .no-print {
-        display: none !important;
-    }
-    
-    th, td {
-        font-size: 9px !important;
-        padding: 2px !important;
-    }
-
-    /* Forzamos que la tabla ocupe todo el ancho disponible sin pasarse */
-    table {
-        width: 100% !important;
-        table-layout: auto !important;
-    }
-
-    input {
-        font-size: 10px !important;
-    }
+    .no-print, .gestion-box { display: none !important; }
+    .nota-pedido { border: none; width: 100% !important; padding: 0; }
+    input.t { background-color: transparent !important; font-size: 10px !important; height: auto !important; }
+    table { table-layout: auto; }
 }
