@@ -61,7 +61,29 @@ button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-we
 .gestion-box { margin-top: 20px; padding: 15px; background: #e8f4fd; border: 1px dashed #2980b9; border-radius: 8px; }
 
 @media print {
-    .no-print, .gestion-box { display: none !important; }
-    .nota-pedido { border: none; width: 100% !important; padding: 0; }
-    input.t { background-color: transparent !important; }
+    /* Evita que las filas de la tabla se corten a la mitad */
+    tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+    }
+
+    /* Asegura que la tabla pueda fluir entre páginas */
+    table {
+        page-break-inside: auto !important;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    /* Elimina márgenes extraños que el navegador añade por defecto */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Si tienes un contenedor principal, evita que bloquee el salto */
+    .container, .main-content {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
 }
