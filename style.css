@@ -63,3 +63,29 @@ button:hover { opacity: 0.9; transform: scale(1.02); }
     .nota-pedido { border: none; box-shadow: none; width: 100% !important; margin: 0; }
     table { font-size: 9px; } /* Achicamos un pelín más para el papel */
 }
+/* Corrección de márgenes y cortes en PDF */
+#hoja-pedido {
+    background-color: white !important;
+    overflow: hidden !important; /* Evita que el PDF "vea" cosas fuera de la hoja */
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    th, td {
+        font-size: 9px !important;
+        padding: 2px !important;
+    }
+
+    /* Forzamos que la tabla ocupe todo el ancho disponible sin pasarse */
+    table {
+        width: 100% !important;
+        table-layout: auto !important;
+    }
+
+    input {
+        font-size: 10px !important;
+    }
+}

@@ -80,9 +80,9 @@ function generarPDF() {
     const nroPedido = document.getElementById('nro-pedido').value || '001';
     const fabrica = document.getElementById('fabrica-nombre').value || 'PEDIDO';
 
-    // AJUSTE CRÍTICO: Forzamos un ancho que contenga toda la tabla antes de capturar
+    // 1. Forzamos el ancho justo antes de capturar para que no haya margen negro
     const anchoOriginal = elemento.style.width;
-    elemento.style.width = "1300px"; 
+    elemento.style.width = "1180px"; 
 
     const opciones = {
         margin: 0.2,
@@ -92,7 +92,10 @@ function generarPDF() {
             scale: 2, 
             useCORS: true,
             logging: false,
-            letterRendering: true
+            letterRendering: true,
+            windowWidth: 1200, // Forzamos el ancho de la "ventana" de captura
+            scrollX: 0,
+            scrollY: 0
         },
         jsPDF: { 
             unit: 'in', 
@@ -101,7 +104,9 @@ function generarPDF() {
         }
     };
 
+    // 2. Ejecutar la generación
     html2pdf().set(opciones).from(elemento).save().then(() => {
-        elemento.style.width = anchoOriginal; // Volvemos a la normalidad
+        // 3. Devolvemos el ancho a la normalidad
+        elemento.style.width = anchoOriginal;
     });
 }
