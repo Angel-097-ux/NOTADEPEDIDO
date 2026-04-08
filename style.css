@@ -1,39 +1,65 @@
+/* Estilos Generales */
 * { box-sizing: border-box; font-family: 'Arial', sans-serif; }
 body { background: #f4f4f4; padding: 20px; }
 
 .nota-pedido { 
     background: white; 
-    width: 1000px; /* Ancho fijo para que no se deforme */
+    width: 1200px; /* Un poco más ancho para que entren los talles cómodos */
     margin: auto; 
     padding: 30px; 
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+/* Encabezado */
+.header-pedido { margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; }
+.logo-seccion { display: flex; justify-content: space-between; align-items: flex-start; }
+.input-destacado { border: none; font-size: 24px; font-weight: bold; width: 450px; outline: none; border-bottom: 1px dashed #ccc; }
+.nro-pedido-box input { width: 60px; border: none; border-bottom: 1px solid #000; text-align: center; font-weight: bold; }
 
-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-th, td { border: 1px solid #000; text-align: center; padding: 4px; font-size: 11px; }
+.datos-cliente { margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
+.datos-cliente input { padding: 5px; border: 1px solid #ccc; border-radius: 3px; }
+.fila-input { display: flex; gap: 10px; }
+.fila-input input { flex: 1; }
 
-/* Anchos de columnas específicos */
-.col-cant { width: 40px; }
-.col-art { width: 80px; }
-.col-color { width: 120px; }
-.col-talle { width: 30px; } /* Columnas de meses/años bien finitas */
+/* Tabla Optimizada para Talles */
+.tabla-contenedor { margin-top: 20px; width: 100%; }
+table { width: 100%; border-collapse: collapse; } /* Quitamos fixed para que se adapte al contenido */
+th, td { border: 1px solid #000; text-align: center; padding: 4px; font-size: 10px; }
 
-input { width: 100%; border: none; font-size: 11px; text-align: center; outline: none; }
+/* Colores de encabezados */
+thead th { background: #f2f2f2; }
+.cat-talles { background: #333; color: white; font-weight: bold; }
+.talles-header th { font-size: 9px; width: 25px; } /* Columnas de talles bien finitas */
+
+/* Inputs de la tabla */
+input { width: 100%; border: none; text-align: center; font-size: 11px; outline: none; padding: 2px; }
 input:focus { background: #fffde7; }
+input.t { background: #fafafa; } /* Fondo sutil para los talles */
+input.total-cant { font-weight: bold; background: #eee; cursor: default; }
 
-.total-seccion { text-align: right; margin-top: 20px; font-size: 20px; font-weight: bold; }
+/* Pie de Tabla y Totales */
+.pie-tabla { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+.gran-total { background: #000; color: #fff; padding: 10px 20px; font-size: 20px; font-weight: bold; }
+
+/* Footer y Observaciones */
+.footer-pedido { margin-top: 20px; }
+textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; min-height: 60px; }
+
+/* Botones con colores correctos */
 .botones-envio { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+button { padding: 10px 20px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 5px; transition: 0.2s; }
 
-button { padding: 10px 20px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 5px; }
-.btn-pdf { background: #c0392b; }
-.btn-wsp { background: #27ae60; }
-.btn-add { background: #2c3e50; margin-bottom: 10px; }
+.btn-add { background: #2c3e50; } /* Gris oscuro */
+.btn-pdf { background: #c0392b; } /* Rojo */
+.btn-whatsapp { background: #27ae60; } /* Verde WhatsApp */
 
-/* REGLA DE ORO PARA EL PDF */
+button:hover { opacity: 0.9; transform: scale(1.02); }
+
+/* REGLA PARA EL PDF */
 @media print {
     .no-print { display: none !important; }
-    .nota-pedido { border: none; box-shadow: none; width: 100% !important; }
+    body { background: white; padding: 0; }
+    .nota-pedido { border: none; box-shadow: none; width: 100% !important; margin: 0; }
+    table { font-size: 9px; } /* Achicamos un pelín más para el papel */
 }

@@ -1,10 +1,15 @@
+// Fecha Actual
 document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString();
+
+// Función inicial para que la primera fila ya sume
+vincularEventos();
 
 function agregarFila() {
     const cuerpo = document.getElementById('cuerpo-tabla');
     const filas = document.getElementsByClassName('fila-producto');
     const nuevaFila = filas[0].cloneNode(true);
     
+    // Limpiamos los datos de la fila clonada
     nuevaFila.querySelectorAll('input').forEach(i => {
         i.value = "";
         if(i.classList.contains('total-cant')) i.value = 0;
@@ -12,7 +17,7 @@ function agregarFila() {
     nuevaFila.querySelector('.fila-subtotal').innerText = "$0";
     
     cuerpo.appendChild(nuevaFila);
-    vincularEventos();
+    vincularEventos(); // Vinculamos los cálculos a la nueva fila
 }
 
 function vincularEventos() {
@@ -23,12 +28,18 @@ function vincularEventos() {
         const calcular = () => {
             let cant = 0;
             talles.forEach(t => cant += Number(t.value || 0));
+            
+            // Ponemos el total de unidades en la columna "Cant"
             fila.querySelector('.total-cant').value = cant;
+            
+            // Calculamos subtotal
             let p = Number(precioI.value || 0);
             fila.querySelector('.fila-subtotal').innerText = `$${(cant * p).toLocaleString()}`;
+            
             sumarTodo();
         };
 
+        // Escuchar cambios en talles y precio
         talles.forEach(t => t.oninput = calcular);
         precioI.oninput = calcular;
     });
@@ -37,7 +48,9 @@ function vincularEventos() {
 function sumarTodo() {
     let total = 0;
     document.querySelectorAll('.fila-subtotal').forEach(s => {
-        total += Number(s.innerText.replace('$', '').replace(/\./g, ''));
+        // Limpiamos el texto para convertirlo a número puro
+        let valor = s.innerText.replace('$', '').replace(/\./g, '').replace(/,/g, '');
+        total += Number(valor || 0);
     });
     document.getElementById('total-final').innerText = `$${total.toLocaleString()}`;
 }
@@ -67,26 +80,28 @@ function generarPDF() {
     const nroPedido = document.getElementById('nro-pedido').value || '001';
     const fabrica = document.getElementById('fabrica-nombre').value || 'PEDIDO';
 
+    // AJUSTE CRÍTICO: Forzamos un ancho que contenga toda la tabla antes de capturar
+    const anchoOriginal = elemento.style.width;
+    elemento.style.width = "1300px"; 
+
     const opciones = {
-        margin: 0.3,
+        margin: 0.2,
         filename: `${fabrica}_Nro_${nroPedido}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-            scale: 3, // Mayor escala = mejor legibilidad
+            scale: 2, 
             useCORS: true,
+            logging: false,
             letterRendering: true
         },
         jsPDF: { 
             unit: 'in', 
-            format: 'a3', // A3 es la clave para tablas anchas
+            format: 'a3', 
             orientation: 'landscape' 
         }
     };
 
-    // Aplicar un pequeño ajuste de ancho antes de sacar la foto
-    elemento.style.width = "1200px";
-
     html2pdf().set(opciones).from(elemento).save().then(() => {
-        elemento.style.width = "1000px"; // Volver al ancho de pantalla
+        elemento.style.width = anchoOriginal; // Volvemos a la normalidad
     });
 }
