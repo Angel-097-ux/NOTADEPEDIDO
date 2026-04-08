@@ -46,7 +46,6 @@ function sumarTodo() {
     document.getElementById('total-final').innerText = `$${total.toLocaleString()}`;
 }
 
-// Tachado con doble clic
 document.addEventListener('dblclick', function(e) {
     if(e.target.classList.contains('t')) {
         e.target.classList.toggle('llegue');
@@ -68,7 +67,7 @@ function guardarPedido() {
         total: document.getElementById('total-final').innerText
     };
     localStorage.setItem(`Pedido_${fabrica}_${nro}`, JSON.stringify(pedido));
-    alert("✅ Guardado en esta PC");
+    alert("✅ Guardado");
 }
 
 function cargarPedido() {
@@ -100,7 +99,8 @@ function generarPDF() {
         filename: `${fabrica}_Nro_${nro}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' }
+        // IMPORTANTE: Landscape para que entren todos los talles de corrido
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
     };
     html2pdf().set(opciones).from(elemento).save();
 }

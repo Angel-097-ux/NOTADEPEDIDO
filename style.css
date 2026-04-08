@@ -4,65 +4,64 @@ body { background: #f4f4f4; padding: 20px; }
 
 .nota-pedido { 
     background: white; 
-    width: 1250px; 
+    width: 1080px; /* Ancho ideal para A4 Horizontal */
     margin: auto; 
-    padding: 25px; 
+    padding: 20px; 
     border: 1px solid #000;
 }
 
-/* Encabezado */
 .header-pedido { margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 10px; }
 .logo-seccion { display: flex; justify-content: space-between; }
 .input-destacado { border: none; font-size: 22px; font-weight: bold; width: 400px; border-bottom: 1px dashed #ccc; outline: none; }
 .nro-pedido-box input { width: 50px; border: none; border-bottom: 1px solid #000; text-align: center; font-weight: bold; }
 
-/* Tabla con Ancho Fijo para que no se deforme */
+.datos-cliente { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+.input-full { border: none; border-bottom: 1px solid #ccc; padding: 5px; width: 100%; outline: none; }
+.datos-fila { display: flex; gap: 10px; }
+.input-flex { flex: 1; border: none; border-bottom: 1px solid #ccc; outline: none; }
+
+/* Tabla */
 table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
 th, td { border: 1px solid #000; text-align: center; padding: 2px; font-size: 10px; overflow: hidden; }
 
-/* Definición de anchos de columna */
+/* Anchos ajustados para que no se corte */
 .col-cant { width: 35px; }
 .col-art { width: 65px; }
-.col-color { width: 110px; }
-.col-talle { width: 28px; } /* Ancho exacto para cada talle */
-.col-precio { width: 75px; }
-.col-subtotal { width: 90px; }
+.col-color { width: 100px; }
+.col-talle { width: 25px; } /* Ancho exacto para cada talle */
+.col-precio { width: 70px; }
+.col-subtotal { width: 85px; }
 
-thead th { background: #f2f2f2; height: 25px; }
+thead th { background: #f2f2f2; }
 .cat-talles { background: #333; color: white; font-weight: bold; }
 
-/* Inputs dentro de la tabla */
+/* Inputs */
 input { width: 100%; border: none; outline: none; background: transparent; text-align: center; font-size: 11px; }
-
-/* Talles: Visibles pero sin romper la fila */
 input.t { 
     font-size: 13px !important; 
     font-weight: bold !important; 
     background-color: #fffde7 !important; 
-    height: 26px; 
+    height: 25px; 
 }
 
-/* Quitar flechas de números */
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type=number] { -moz-appearance: textfield; }
 
-/* Efecto Tachado (Doble Clic) */
+/* Otros */
 .llegue { background-color: #d4edda !important; text-decoration: line-through; color: #155724; opacity: 0.6; }
-
-/* Totales y Botones */
 .pie-tabla { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
 .gran-total { background: #000; color: #fff; padding: 8px 15px; font-size: 18px; font-weight: bold; }
 
+textarea { width: 100%; height: 50px; margin-top: 10px; padding: 5px; border: 1px solid #ccc; outline: none; }
+
 .no-print { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 4px; font-size: 13px; }
+button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 4px; }
 .btn-add { background: #2c3e50; }
 .btn-pdf { background: #c0392b; }
 .btn-whatsapp { background: #27ae60; }
+.gestion-box { margin-top: 20px; padding: 15px; background: #e8f4fd; border: 1px dashed #2980b9; border-radius: 8px; }
 
-/* PDF A3 */
 @media print {
     .no-print, .gestion-box { display: none !important; }
     .nota-pedido { border: none; width: 100% !important; padding: 0; }
-    input.t { background-color: transparent !important; font-size: 10px !important; height: auto !important; }
-    table { table-layout: auto; }
+    input.t { background-color: transparent !important; }
 }
