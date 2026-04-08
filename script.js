@@ -64,14 +64,29 @@ function enviarWhatsapp() {
 
 function generarPDF() {
     const elemento = document.getElementById('hoja-pedido');
-    const opciones = {
-        margin: 0.2,
-        filename: `Pedido_${document.getElementById('nro-pedido').value || '001'}_${document.getElementById('fabrica-nombre').value}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 3 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
-    };
-    html2pdf().set(opciones).from(elemento).save();
-}
+    const nroPedido = document.getElementById('nro-pedido').value || '001';
+    const fabrica = document.getElementById('fabrica-nombre').value || 'PEDIDO';
 
-vincularEventos();
+    const opciones = {
+        margin: 0.3,
+        filename: `${fabrica}_Nro_${nroPedido}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 3, // Mayor escala = mejor legibilidad
+            useCORS: true,
+            letterRendering: true
+        },
+        jsPDF: { 
+            unit: 'in', 
+            format: 'a3', // A3 es la clave para tablas anchas
+            orientation: 'landscape' 
+        }
+    };
+
+    // Aplicar un pequeño ajuste de ancho antes de sacar la foto
+    elemento.style.width = "1200px";
+
+    html2pdf().set(opciones).from(elemento).save().then(() => {
+        elemento.style.width = "1000px"; // Volver al ancho de pantalla
+    });
+}
