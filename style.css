@@ -1,10 +1,19 @@
 /* Estilos Base */
-* { box-sizing: border-box; font-family: 'Arial', sans-serif; }
-body { background: #f4f4f4; padding: 20px; }
+* { 
+    box-sizing: border-box; 
+    font-family: 'Arial', sans-serif; 
+}
+
+body { 
+    background: #f4f4f4; 
+    padding: 20px; 
+    margin: 0;
+}
 
 .nota-pedido { 
     background: white; 
-    width: 1080px; /* Ancho ideal para A4 Horizontal */
+    width: 100%; /* CAMBIO CLAVE: Dejamos que el contenedor se adapte */
+    max-width: 1000px; /* Para que en pantalla no se vea infinito */
     margin: auto; 
     padding: 20px; 
     border: 1px solid #000;
@@ -21,14 +30,26 @@ body { background: #f4f4f4; padding: 20px; }
 .input-flex { flex: 1; border: none; border-bottom: 1px solid #ccc; outline: none; }
 
 /* Tabla */
-table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
-th, td { border: 1px solid #000; text-align: center; padding: 2px; font-size: 10px; overflow: hidden; }
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    table-layout: fixed; /* Mantiene los anchos de columna que definiste */
+} 
 
-/* Anchos ajustados para que no se corte */
+th, td { 
+    border: 1px solid #000; 
+    text-align: center; 
+    padding: 2px; 
+    font-size: 10px; 
+    overflow: hidden; 
+    word-wrap: break-word;
+}
+
+/* Anchos de columnas */
 .col-cant { width: 35px; }
 .col-art { width: 65px; }
 .col-color { width: 100px; }
-.col-talle { width: 25px; } /* Ancho exacto para cada talle */
+.col-talle { width: 25px; } 
 .col-precio { width: 70px; }
 .col-subtotal { width: 85px; }
 
@@ -44,77 +65,64 @@ input.t {
     height: 25px; 
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
 /* Otros */
-.llegue { background-color: #d4edda !important; text-decoration: line-through; color: #155724; opacity: 0.6; }
 .pie-tabla { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
 .gran-total { background: #000; color: #fff; padding: 8px 15px; font-size: 18px; font-weight: bold; }
-
 textarea { width: 100%; height: 50px; margin-top: 10px; padding: 5px; border: 1px solid #ccc; outline: none; }
 
-.no-print { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-weight: bold; border-radius: 4px; }
-.btn-add { background: #2c3e50; }
-.btn-pdf { background: #c0392b; }
-.btn-whatsapp { background: #27ae60; }
-.gestion-box { margin-top: 20px; padding: 15px; background: #e8f4fd; border: 1px dashed #2980b9; border-radius: 8px; }
+/* Elementos que NO se imprimen */
+.no-print, button, .gestion-box { 
+    display: flex; gap: 10px; justify-content: center; margin-top: 15px; 
+}
 
+/* =============================================
+   BLOQUE DE IMPRESIÓN (EL QUE ARREGLA EL CORTE)
+   ============================================= */
 @media print {
-    /* Evita que las filas de la tabla se corten a la mitad */
+    @page {
+        size: A4 portrait; /* O 'landscape' si la prefieres apaisada */
+        margin: 1cm;
+    }
+
+    body {
+        background: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nota-pedido {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important; /* Opcional: quita el borde externo para que no se corte */
+    }
+
+    /* Evita que las filas se partan a la mitad */
     tr {
         page-break-inside: avoid !important;
         break-inside: avoid-page !important;
     }
 
-    /* Asegura que la tabla pueda fluir entre páginas */
+    /* Asegura que la tabla fluya correctamente */
     table {
         page-break-inside: auto !important;
-        border-collapse: collapse;
-        width: 100%;
+        width: 100% !important;
     }
 
-    /* Elimina márgenes extraños que el navegador añade por defecto */
-    body {
-        margin: 0;
-        padding: 0;
+    /* Ocultar TODO lo que no sea la nota */
+    .no-print, button, .gestion-box, .btn-pdf, .btn-whatsapp {
+        display: none !important;
     }
 
-    /* Si tienes un contenedor principal, evita que bloquee el salto */
-    .container, .main-content {
+    /* Si la nota es muy larga, esto permite que continúe en otra hoja */
+    .container, main {
         display: block !important;
-        height: auto !important;
         overflow: visible !important;
     }
-}
-/* Esto solo se aplica cuando vas a imprimir o guardar PDF */
-@media print {
-    /* 1. Forzamos que el contenido empiece arriba de todo */
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        height: auto !important;
-    }
 
-    /* 2. Configuramos la hoja A4 sin márgenes fantasmas */
-    @page {
-        size: A4;
-        margin: 1cm; /* Margen normal de documento */
-    }
-
-    /* 3. OCULTAMOS LOS BOTONES (Para que no salgan en el PDF) */
-    .btn, 
-    button, 
-    #boton-descargar, 
-    #boton-whatsapp,
-    .no-print { 
-        display: none !important; 
-    }
-
-    /* 4. Aseguramos que la tabla o el contenedor no esté centrado */
-    main, .container, #nota-pedido {
-        margin: 0 !important;
-        padding: 0 !important;
-        display: block !important; /* Evita que flexbox lo centre verticalmente */
+    /* Ajuste de escala por si acaso */
+    body {
+        zoom: 90%; /* Si ves que aún roza el borde, baja esto a 85% */
     }
 }
