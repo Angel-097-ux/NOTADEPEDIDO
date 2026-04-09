@@ -87,3 +87,34 @@ button { padding: 8px 15px; cursor: pointer; border: none; color: white; font-we
         overflow: visible !important;
     }
 }
+/* Esto solo se aplica cuando vas a imprimir o guardar PDF */
+@media print {
+    /* 1. Forzamos que el contenido empiece arriba de todo */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+    }
+
+    /* 2. Configuramos la hoja A4 sin márgenes fantasmas */
+    @page {
+        size: A4;
+        margin: 1cm; /* Margen normal de documento */
+    }
+
+    /* 3. OCULTAMOS LOS BOTONES (Para que no salgan en el PDF) */
+    .btn, 
+    button, 
+    #boton-descargar, 
+    #boton-whatsapp,
+    .no-print { 
+        display: none !important; 
+    }
+
+    /* 4. Aseguramos que la tabla o el contenedor no esté centrado */
+    main, .container, #nota-pedido {
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important; /* Evita que flexbox lo centre verticalmente */
+    }
+}
