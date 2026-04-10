@@ -1,50 +1,42 @@
 * { box-sizing: border-box; font-family: 'Arial', sans-serif; }
-body { background: #f4f4f4; margin: 0; padding: 20px; }
+body { background: #f4f4f4; margin: 0; padding: 10px; }
 
 .nota-pedido { 
     background: white; 
     width: 100%; 
-    max-width: 1000px; 
-    margin: auto; 
-    padding: 30px; 
+    max-width: 1050px; /* Ancho ideal para A4 horizontal */
+    margin: 0 auto; 
+    padding: 20px; 
     border: 1px solid #ccc;
-    position: relative;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.header-pedido { margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; }
+.header-pedido { border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 15px; }
 .logo-seccion { display: flex; justify-content: space-between; align-items: flex-start; }
+.input-destacado { border: none; font-size: 24px; font-weight: bold; outline: none; width: 300px; text-transform: uppercase; }
 
-.input-destacado { border: none; font-size: 26px; font-weight: bold; width: 100%; outline: none; text-transform: uppercase; }
-.nro-pedido-box input { width: 50px; border: none; border-bottom: 1px solid #000; text-align: center; font-weight: bold; }
+.datos-cliente { display: flex; flex-direction: column; gap: 8px; }
+.input-full, .input-flex { border: none; border-bottom: 1px solid #ccc; padding: 5px; outline: none; width: 100%; }
+.datos-fila { display: flex; gap: 10px; }
 
-.datos-cliente { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-.input-full, .input-flex { border: none; border-bottom: 1px solid #ccc; padding: 5px; outline: none; font-size: 14px; }
-.datos-fila { display: flex; gap: 20px; }
+.contenedor-tabla { width: 100%; overflow-x: auto; margin-top: 15px; border: 1px solid #000; }
+table { width: 100%; border-collapse: collapse; min-width: 950px; } /* Mantiene la tabla firme */
+th, td { border: 1px solid #000; text-align: center; padding: 3px; font-size: 11px; }
 
-/* Tabla y Scroll */
-.contenedor-tabla { width: 100%; overflow-x: auto; margin-top: 20px; }
-table { width: 100%; border-collapse: collapse; min-width: 900px; } 
-th, td { border: 1px solid #000; text-align: center; padding: 5px; font-size: 11px; }
-
-.cat-talles { background: #333; color: white; font-weight: bold; }
+.cat-talles { background: #333; color: white; }
 input { width: 100%; border: none; text-align: center; background: transparent; outline: none; }
-input.t { font-weight: bold; background: #fffde7 !important; height: 25px; }
+input.t { font-weight: bold; background: #fffde7 !important; }
 
-/* Botones */
-.no-print { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
-.btn-add { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+/* Botones y Celular */
+.no-print { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+.btn-add { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
 .btn-pdf { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 .btn-whatsapp { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-.btn-guardar, .btn-abrir { background: #7f8c8d; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
 
-textarea { width: 100%; height: 80px; margin-top: 20px; padding: 10px; border: 1px solid #ccc; resize: none; }
+textarea { width: 100%; height: 60px; margin-top: 15px; padding: 10px; border: 1px solid #ccc; resize: none; }
 
-/* AJUSTES PARA PDF PERFECTO */
 @media print {
-    @page { size: A4 landscape; margin: 0; }
-    body { padding: 0; margin: 0; }
-    .nota-pedido { border: none; width: 100%; max-width: none; padding: 15mm; }
     .no-print { display: none !important; }
+    .nota-pedido { border: none; width: 100%; max-width: none; padding: 0; }
     .contenedor-tabla { overflow: visible; }
-    input.t { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

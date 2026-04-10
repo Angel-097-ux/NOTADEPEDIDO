@@ -50,26 +50,21 @@
                     <td><input type="number" class="total-cant" readonly value="0"></td>
                     <td><input type="text" class="art-cod"></td>
                     <td><input type="text" class="art-color"></td>
-                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="pie-tabla no-print">
+    <div class="no-print acciones-centradas">
         <button onclick="agregarFila()" class="btn-add">+ Artículo</button>
     </div>
 
     <footer>
-        <textarea id="observaciones" placeholder="Observaciones / Notas adicionales..."></textarea>
+        <textarea id="observaciones" placeholder="Observaciones..."></textarea>
         <div class="no-print acciones-finales">
             <button onclick="generarPDF()" class="btn-pdf">Descargar PDF</button>
             <button onclick="enviarWhatsapp()" class="btn-whatsapp">WhatsApp</button>
-        </div>
-        <div class="no-print gestion-box">
-            <button onclick="guardarPedido()" class="btn-guardar">💾 Guardar</button>
-            <button onclick="cargarPedido()" class="btn-abrir">📂 Abrir</button>
         </div>
     </footer>
 </div>
