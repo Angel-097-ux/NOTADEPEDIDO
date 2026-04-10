@@ -3,72 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nota de Pedido - CON AMOR</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>SISTEMA DE PEDIDOS - ANGEL</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .wrapper { max-width: 1250px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* Contenedor limpio para la captura */
+        #seccion-a-imprimir { 
+            padding: 20px; 
+            background: white; 
+            border: 1px solid #eee;
+        }
+
+        /* ENCABEZADO */
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .header input { border: none; outline: none; background: transparent; font-family: inherit; }
+        .input-marca { font-size: 28px; font-weight: bold; width: 400px; color: #333; }
+        .input-cliente { font-size: 16px; width: 350px; border-bottom: 1px solid #eee !important; color: #555; }
+        .input-info { text-align: right; width: 120px; border-bottom: 1px solid #eee !important; }
+
+        /* TABLA RÍGIDA - NO SE MUEVE */
+        table { width: 100%; table-layout: fixed; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; background: white; }
+        th.col-articulo, td.col-articulo { width: 220px; text-align: left; padding-left: 10px; }
+        th.col-talle, td.col-talle { width: 38px; text-align: center; }
+
+        thead th { border: 1px solid #ccc; padding: 8px 4px; font-weight: bold; }
+        th.meses-header { background-color: #fff9c4; color: #827717; }
+        th.anos-header { background-color: #bbdeffb6; color: #1565c0; }
+        th.subheader { background-color: #f5f5f5; color: #333; }
+
+        tbody td { border: 1px solid #eee; padding: 4px; height: 28px; }
+        td input { width: 100%; border: none; background: transparent; text-align: center; outline: none; font-size: 13px; }
+        td.col-articulo input { text-align: left; }
+
+        /* OBSERVACIONES */
+        .footer-area { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px; }
+        .obs-container { width: 65%; text-align: left; }
+        .obs-container textarea { 
+            width: 100%; border: 1px solid #eee; border-radius: 4px; padding: 8px; 
+            font-family: inherit; resize: none; min-height: 60px; outline: none; margin-top: 5px; 
+        }
+
+        /* BOTONES (No salen en la foto) */
+        .no-print { margin-top: 20px; display: flex; justify-content: space-between; gap: 10px; }
+        .btn { padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; display: flex; align-items: center; gap: 8px; }
+        .btn-add { background: #2196F3; } 
+        .btn-img { background: #f44336; } /* Rojo para identificar descarga de imagen */
+        .btn-wsp { background: #25D366; text-decoration: none; font-size: 14px; }
+    </style>
 </head>
 <body>
 
-<div id="hoja-pedido" class="nota-pedido">
-    <header class="header-pedido">
-        <div class="logo-seccion">
-            <div class="titulo-grupo">
-                <h1>NOTA DE PEDIDO</h1>
-                <input type="text" id="fabrica-nombre" value="CON AMOR" class="input-destacado">
+<div class="wrapper">
+    <div id="seccion-a-imprimir">
+        <div class="header">
+            <div>
+                <input type="text" class="input-marca" placeholder="NOMBRE DE LA MARCA">
+                <div style="margin-top: 10px;">
+                    <strong>Cliente:</strong> 
+                    <input type="text" class="input-cliente" placeholder="Nombre del cliente...">
+                </div>
             </div>
-            <div class="fecha-grupo">
-                <p>Fecha: <span id="fecha-actual"></span></p>
-                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="3"></div>
+            <div style="text-align: right; color: #666; font-size: 14px;">
+                <div style="margin-bottom: 5px;">
+                    <strong>Fecha:</strong> <input type="text" class="input-info" value="10/4/2026">
+                </div>
+                <div>
+                    <strong>Pedido N°:</strong> 
+                    <input type="text" class="input-info" placeholder="00" style="font-weight: bold; color: red;">
+                </div>
             </div>
         </div>
-        <div class="datos-cliente">
-            <input type="text" id="cliente" placeholder="Cliente / Razón Social" class="input-full">
-            <div class="datos-fila">
-                <input type="text" id="localidad" placeholder="Localidad" class="input-flex">
-                <input type="text" id="transporte" placeholder="Transporte / Expreso" class="input-flex">
-            </div>
-        </div>
-    </header>
 
-    <div class="contenedor-tabla">
-        <table>
+        <table id="tabla-pedidos">
             <thead>
                 <tr>
-                    <th rowspan="2" class="col-cant">Cant</th>
-                    <th rowspan="2" class="col-art">Art.</th>
-                    <th rowspan="2" class="col-color">Color</th>
-                    <th colspan="10" class="cat-talles">MESES</th>
-                    <th colspan="10" class="cat-talles">AÑOS</th>
+                    <th class="col-articulo subheader" rowspan="2">ARTÍCULO</th>
+                    <th class="meses-header" colspan="10">MESES</th>
+                    <th class="anos-header" colspan="10">AÑOS</th>
                 </tr>
-                <tr class="talles-header">
-                    <th>00</th><th>0</th><th>1</th><th>3</th><th>6</th><th>9</th><th>12</th><th>18</th><th>24</th><th>36</th>
-                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>8</th><th>10</th><th>12</th><th>14</th>
+                <tr>
+                    <th class="col-talle meses-header subheader">00</th>
+                    <th class="col-talle meses-header subheader">0</th>
+                    <th class="col-talle meses-header subheader">1</th>
+                    <th class="col-talle meses-header subheader">3</th>
+                    <th class="col-talle meses-header subheader">6</th>
+                    <th class="col-talle meses-header subheader">9</th>
+                    <th class="col-talle meses-header subheader">12</th>
+                    <th class="col-talle meses-header subheader">18</th>
+                    <th class="col-talle meses-header subheader">24</th>
+                    <th class="col-talle meses-header subheader">36</th>
+                    <th class="col-talle anos-header subheader">1</th>
+                    <th class="col-talle anos-header subheader">2</th>
+                    <th class="col-talle anos-header subheader">3</th>
+                    <th class="col-talle anos-header subheader">4</th>
+                    <th class="col-talle anos-header subheader">5</th>
+                    <th class="col-talle anos-header subheader">6</th>
+                    <th class="col-talle anos-header subheader">8</th>
+                    <th class="col-talle anos-header subheader">10</th>
+                    <th class="col-talle anos-header subheader">12</th>
+                    <th class="col-talle anos-header subheader">14</th>
                 </tr>
             </thead>
             <tbody id="cuerpo-tabla">
-                <tr class="fila-producto">
-                    <td><input type="number" class="total-cant" readonly value="0"></td>
-                    <td><input type="text" class="art-cod"></td>
-                    <td><input type="text" class="art-color"></td>
-                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                <tr>
+                    <td class="col-articulo"><input type="text" placeholder="Producto..."></td>
+                    <td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td><td class="col-talle"><input type="number"></td>
                 </tr>
             </tbody>
         </table>
-    </div>
 
-    <div class="no-print acciones-centradas">
-        <button onclick="agregarFila()" class="btn-add">+ Artículo</button>
-    </div>
-
-    <footer>
-        <textarea id="observaciones" placeholder="Observaciones..."></textarea>
-        <div class="no-print acciones-finales">
-            <button onclick="generarPDF()" class="btn-pdf">Descargar PDF</button>
-            <button onclick="enviarWhatsapp()" class="btn-whatsapp">WhatsApp</button>
+        <div class="footer-area">
+            <div class="obs-container">
+                <strong>Observaciones:</strong>
+                <textarea placeholder="Notas adicionales..."></textarea>
+            </div>
+            <div class="firma-area" style="text-align: right;">
+                <div style="font-weight: bold;">ANGEL CALVEIRA</div>
+                <div style="font-size: 11px; color: #999;">Santa Fe, Argentina</div>
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <div class="no-print">
+        <button type="button" class="btn btn-add" onclick="agregarFila()">+ Agregar Fila</button>
+       <div class="no-print" style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+    <button type="button" onclick="window.print()" style="background:#000; color:white; padding:15px; cursor:pointer; font-weight:bold;">
+        🖨️ IMPRIMIR / GUARDAR PDF
+    </button>
+</div>
+            <a href="https://wa.me/TUNUMERO" class="btn btn-wsp">💬 Enviar WhatsApp</a>
+        </div>
+    </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+    function agregarFila() {
+        const tbody = document.getElementById('cuerpo-tabla');
+        const nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `<td class="col-articulo"><input type="text" placeholder="Producto..."></td>${'<td class="col-talle"><input type="number"></td>'.repeat(20)}`;
+        tbody.appendChild(nuevaFila);
+    }
+
+    function descargarImagen() {
+        const elemento = document.getElementById('seccion-a-imprimir');
+        const marca = document.querySelector('.input-marca').value || 'Pedido';
+        
+        html2canvas(elemento, {
+            scale: 3, // Calidad alta
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = marca + '_Angel.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        });
+    }
+</script>
+
 </body>
 </html>
