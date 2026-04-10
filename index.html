@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Nota de Pedido Profesional</title>
+    <title>Nota de Pedido - CON AMOR</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -13,11 +13,11 @@
         <div class="logo-seccion">
             <div>
                 <h1>NOTA DE PEDIDO</h1>
-                <input type="text" id="fabrica-nombre" placeholder="NOMBRE DE FÁBRICA" class="input-destacado">
+                <input type="text" id="fabrica-nombre" value="CON AMOR" class="input-destacado">
             </div>
             <div style="text-align: right;">
                 <p>Fecha: <span id="fecha-actual"></span></p>
-                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="001"></div>
+                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="003"></div>
             </div>
         </div>
         <div class="datos-cliente">
@@ -37,8 +37,6 @@
                 <th rowspan="2" class="col-color">Color</th>
                 <th colspan="10" class="cat-talles">MESES</th>
                 <th colspan="10" class="cat-talles">AÑOS</th>
-                <th rowspan="2" class="col-precio">Precio</th>
-                <th rowspan="2" class="col-subtotal">Subtotal</th>
             </tr>
             <tr class="talles-header">
                 <th class="col-talle">00</th><th class="col-talle">0</th><th class="col-talle">1</th><th class="col-talle">3</th><th class="col-talle">6</th><th class="col-talle">9</th><th class="col-talle">12</th><th class="col-talle">18</th><th class="col-talle">24</th><th class="col-talle">36</th>
@@ -52,26 +50,23 @@
                 <td><input type="text" class="art-color"></td>
                 <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
                 <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-                <td><input type="number" class="art-precio" placeholder="$"></td>
-                <td class="fila-subtotal">$0</td>
             </tr>
         </tbody>
     </table>
 
     <div class="pie-tabla">
         <button onclick="agregarFila()" class="btn-add no-print">+ Artículo</button>
-        <div class="gran-total">TOTAL: <span id="total-final">$0</span></div>
     </div>
 
     <footer>
         <textarea id="observaciones" placeholder="Observaciones / Notas adicionales..."></textarea>
-        <div class="no-print">
+        <div class="no-print acciones-finales">
             <button onclick="generarPDF()" class="btn-pdf">Descargar PDF</button>
             <button onclick="enviarWhatsapp()" class="btn-whatsapp">WhatsApp</button>
         </div>
         <div class="no-print gestion-box">
-            <button onclick="guardarPedido()" style="background: #2980b9; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">💾 Guardar</button>
-            <button onclick="cargarPedido()" style="background: #8e44ad; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">📂 Abrir</button>
+            <button onclick="guardarPedido()" class="btn-guardar">💾 Guardar</button>
+            <button onclick="cargarPedido()" class="btn-abrir">📂 Abrir</button>
         </div>
     </footer>
 </div>
