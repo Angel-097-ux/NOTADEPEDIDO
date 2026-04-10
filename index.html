@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota de Pedido - CON AMOR</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -11,13 +12,13 @@
 <div id="hoja-pedido" class="nota-pedido">
     <header class="header-pedido">
         <div class="logo-seccion">
-            <div>
+            <div class="titulo-grupo">
                 <h1>NOTA DE PEDIDO</h1>
                 <input type="text" id="fabrica-nombre" value="CON AMOR" class="input-destacado">
             </div>
-            <div style="text-align: right;">
+            <div class="fecha-grupo">
                 <p>Fecha: <span id="fecha-actual"></span></p>
-                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="003"></div>
+                <div class="nro-pedido-box">Pedido N°: <input type="text" id="nro-pedido" value="3"></div>
             </div>
         </div>
         <div class="datos-cliente">
@@ -29,33 +30,35 @@
         </div>
     </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th rowspan="2" class="col-cant">Cant</th>
-                <th rowspan="2" class="col-art">Art.</th>
-                <th rowspan="2" class="col-color">Color</th>
-                <th colspan="10" class="cat-talles">MESES</th>
-                <th colspan="10" class="cat-talles">AÑOS</th>
-            </tr>
-            <tr class="talles-header">
-                <th class="col-talle">00</th><th class="col-talle">0</th><th class="col-talle">1</th><th class="col-talle">3</th><th class="col-talle">6</th><th class="col-talle">9</th><th class="col-talle">12</th><th class="col-talle">18</th><th class="col-talle">24</th><th class="col-talle">36</th>
-                <th class="col-talle">1</th><th class="col-talle">2</th><th class="col-talle">3</th><th class="col-talle">4</th><th class="col-talle">5</th><th class="col-talle">6</th><th class="col-talle">8</th><th class="col-talle">10</th><th class="col-talle">12</th><th class="col-talle">14</th>
-            </tr>
-        </thead>
-        <tbody id="cuerpo-tabla">
-            <tr class="fila-producto">
-                <td><input type="number" class="total-cant" readonly value="0"></td>
-                <td><input type="text" class="art-cod"></td>
-                <td><input type="text" class="art-color"></td>
-                <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-                <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="contenedor-tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2" class="col-cant">Cant</th>
+                    <th rowspan="2" class="col-art">Art.</th>
+                    <th rowspan="2" class="col-color">Color</th>
+                    <th colspan="10" class="cat-talles">MESES</th>
+                    <th colspan="10" class="cat-talles">AÑOS</th>
+                </tr>
+                <tr class="talles-header">
+                    <th>00</th><th>0</th><th>1</th><th>3</th><th>6</th><th>9</th><th>12</th><th>18</th><th>24</th><th>36</th>
+                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>8</th><th>10</th><th>12</th><th>14</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <tr class="fila-producto">
+                    <td><input type="number" class="total-cant" readonly value="0"></td>
+                    <td><input type="text" class="art-cod"></td>
+                    <td><input type="text" class="art-color"></td>
+                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                    <td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td><td><input type="number" class="t"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <div class="pie-tabla">
-        <button onclick="agregarFila()" class="btn-add no-print">+ Artículo</button>
+    <div class="pie-tabla no-print">
+        <button onclick="agregarFila()" class="btn-add">+ Artículo</button>
     </div>
 
     <footer>
